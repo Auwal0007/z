@@ -1,0 +1,86 @@
+name: CMS Content Sync
+
+on:
+  # Trigger when CMS content files are changed
+  push:
+    paths:
+      - 'src/content/**/*.md'
+      - 'public/images/products/**'
+  
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual sync'
+        required: false
+        default: 'Manual content sync'
+
+  # Trigger via webhook (useful for CMS integration)
+  repository_dispatch:
+    types: [cms-content-updated]
+
+jobs:
+  sync-content:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history to ensure we can push changes
+          fetch-depth: 0
+          # Use a token that can push to protected branches if needed
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate static content from CMS
+        run: |
+          echo "🔄 Generating static content from CMS markdown files..."
+          npm run generate-content
+
+      - name: Check for content changes
+        id: check-changes
+        run: |
+          if git diff --quiet src/data/; then
+            echo "No content changes detected"
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Content changes detected"
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.has-changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/data/*.json
+          git commit -m "chore: auto-update CMS static content [skip ci]"
+          git push
+
+      - name: Trigger Netlify Deploy
+        if: steps.check-changes.outputs.has-changes == 'true'
+        run: |
+          if [ -n "${{ secrets.NETLIFY_BUILD_HOOK_URL }}" ]; then
+            echo "🚀 Triggering Netlify deployment..."
+            curl -X POST "${{ secrets.NETLIFY_BUILD_HOOK_URL }}"
+            echo "✅ Netlify build triggered"
+          else
+            echo "ℹ️  No Netlify build hook configured, skipping deployment trigger"
+          fi
+
+      - name: Log workflow completion
+        run: |
+          if [ "${{ steps.check-changes.outputs.has-changes }}" == "true" ]; then
+            echo "✅ CMS content sync completed with changes"
+          else
+            echo "ℹ️  CMS content sync completed - no changes needed"
+          fi
