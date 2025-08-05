@@ -43,7 +43,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-burgundy-900 mb-2 sm:mb-4 font-playfair px-4">
               {showFeatured && products.length === featuredProducts.length ? 'Our Collection' : 
-               showFeatured ? 'All Products' : 
+               showFeatured ? 'New Arrivals' : 
                selectedCategory && selectedCategory !== 'all' ? 
                  `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Collection` : 
                  'Our Collection'}
