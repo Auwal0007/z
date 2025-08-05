@@ -13,8 +13,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, searchQuery = '', s
   const regularProducts = products.filter(product => !product.featured);
 
   return (
-    <section id="products" className="py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="products" className="">
+      <div>
         {/* Featured Products */}
         {featuredProducts.length > 0 && (
           <div className="mb-16">

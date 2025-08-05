@@ -8,7 +8,7 @@ interface AdminPanelProps {}
 
 const AdminPanel: React.FC<AdminPanelProps> = () => {
   const { data: products = [], isLoading } = useQuery<Product[]>({
-    queryKey: ['/api/products'],
+    queryKey: ['api', 'products'],
   });
   const [isOpen, setIsOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -35,7 +35,7 @@ const AdminPanel: React.FC<AdminPanelProps> = () => {
       body: JSON.stringify(product),
     }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      queryClient.invalidateQueries({ queryKey: ['api', 'products'] });
       handleCancel();
     },
   });
@@ -47,7 +47,7 @@ const AdminPanel: React.FC<AdminPanelProps> = () => {
         body: JSON.stringify(product),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      queryClient.invalidateQueries({ queryKey: ['api', 'products'] });
       handleCancel();
     },
   });
@@ -57,7 +57,7 @@ const AdminPanel: React.FC<AdminPanelProps> = () => {
       method: 'DELETE',
     }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      queryClient.invalidateQueries({ queryKey: ['api', 'products'] });
     },
   });
 

@@ -20,7 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [, setLocation] = useLocation();
 
   const { data: searchResults = [], isLoading } = useQuery<Product[]>({
-    queryKey: ['/api/products/search', query],
+    queryKey: ['api', 'products', 'search', query],
     enabled: query.length > 2,
     queryFn: () => {
       if (query.length <= 2) return [];

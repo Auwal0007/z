@@ -10,7 +10,7 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const { data: products = [], isLoading } = useQuery<Product[]>({
-    queryKey: ['/api/products'],
+    queryKey: ['api', 'products'],
   });
 
   // Filter products based on search and category
@@ -35,13 +35,7 @@ export default function HomePage() {
     <>
       <Hero />
       <CategoryShowcase />
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-burgundy-900 mb-4 font-playfair">
-            Featured Products
-          </h2>
-          <div className="w-24 h-1 bg-gold-500 mx-auto rounded-full mb-6"></div>
-        </div>
+      <div className="container mx-auto px-4 py-4">
         <ProductGrid 
           products={filteredProducts}
           searchQuery={searchQuery}

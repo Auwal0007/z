@@ -10,7 +10,7 @@ const SearchResultsPage: React.FC = () => {
   const query = params.get('q') || '';
 
   const { data: searchResults = [], isLoading } = useQuery<Product[]>({
-    queryKey: ['/api/products/search', query],
+    queryKey: ['api', 'products', 'search', query],
     enabled: query.length > 0,
     queryFn: () => {
       if (!query) return [];

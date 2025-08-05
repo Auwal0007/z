@@ -11,7 +11,7 @@ const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
   title = "Shop by Category" 
 }) => {
   const { data: products = [] } = useQuery<Product[]>({
-    queryKey: ['/api/products'],
+    queryKey: ['api', 'products'],
   });
 
   const categories = [

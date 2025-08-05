@@ -7,7 +7,7 @@ export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
 
   const { data: products = [], isLoading } = useQuery<Product[]>({
-    queryKey: ['/api/products/category', category],
+    queryKey: ['api', 'products', 'category', category],
   });
 
   if (isLoading) {

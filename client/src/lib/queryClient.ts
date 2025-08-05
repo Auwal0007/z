@@ -44,8 +44,10 @@ export const apiRequest = async (url: string, options: RequestInit = {}) => {
 // Set up default query function
 queryClient.setQueryDefaults(["api"], {
   queryFn: ({ queryKey }) => {
-    const url = Array.isArray(queryKey) ? queryKey.join("/") : queryKey;
-    return defaultFetcher(url as string);
+    // Convert query key array to URL path
+    const [, ...pathParts] = queryKey as string[];
+    const url = `/api/${pathParts.join('/')}`;
+    return defaultFetcher(url);
   },
 });
 

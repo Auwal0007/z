@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Search, Menu, X, ShoppingBag } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import SearchBar from './SearchBar';
-import ShoppingCart, { useShoppingCart } from './ShoppingCart';
 
 interface Category {
   id: string;
@@ -32,9 +31,7 @@ const Header: React.FC<HeaderProps> = ({
   setSelectedCategory 
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [location] = useLocation();
-  const { getTotalItems } = useShoppingCart();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gold-200">
@@ -67,23 +64,9 @@ const Header: React.FC<HeaderProps> = ({
             ))}
           </nav>
 
-          {/* Search Bar & Cart */}
+          {/* Search Bar */}
           <div className="hidden md:flex items-center space-x-4">
             <SearchBar placeholder="Search perfumes..." className="w-64" />
-            
-            {/* Shopping Cart Button */}
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-gray-700 hover:text-burgundy-600 transition-colors duration-200"
-              data-testid="button-open-cart"
-            >
-              <ShoppingBag className="h-6 w-6" />
-              {getTotalItems() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-burgundy-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {getTotalItems()}
-                </span>
-              )}
-            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -136,30 +119,9 @@ const Header: React.FC<HeaderProps> = ({
                   {category.name}
                 </button>
               ))}
-              
-              {/* Mobile Cart Button */}
-              <button
-                onClick={() => {
-                  setIsCartOpen(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-burgundy-600 hover:bg-cream-100 transition-all duration-200"
-                data-testid="button-mobile-cart"
-              >
-                <ShoppingBag className="h-5 w-5" />
-                <span>Shopping Cart</span>
-                {getTotalItems() > 0 && (
-                  <span className="bg-burgundy-600 text-white text-xs rounded-full px-2 py-1">
-                    {getTotalItems()}
-                  </span>
-                )}
-              </button>
             </nav>
           </div>
         )}
-        
-        {/* Shopping Cart Component */}
-        <ShoppingCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       </div>
     </header>
   );
