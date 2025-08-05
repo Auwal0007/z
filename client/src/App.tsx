@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import AdminPanel from './components/AdminPanel';
 import AdminLink from './components/AdminLink';
+import CMSAdminLink from './components/CMSAdminLink';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -45,6 +46,7 @@ function App() {
         <Footer />
         <WhatsAppFloat />
         <AdminLink onAdminAccess={() => setShowAdminPanel(true)} />
+        <CMSAdminLink />
         {showAdminPanel && <AdminPanel />}
       </div>
     </QueryClientProvider>
