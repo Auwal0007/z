@@ -45,6 +45,7 @@ export default function HomePage() {
           newArrivals={newArrivals}
           searchQuery={searchQuery}
           selectedCategory={selectedCategory}
+          showFeatured={true}
         />
       </div>
     </>

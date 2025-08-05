@@ -5,6 +5,9 @@ import { queryClient } from './lib/queryClient';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import FloatingSocial from './components/FloatingSocial';
+import ScrollToTop from './components/ScrollToTop';
+import BackToTop from './components/BackToTop';
 import AdminPanel from './components/AdminPanel';
 import AdminLink from './components/AdminLink';
 import CMSAdminLink from './components/CMSAdminLink';
@@ -21,6 +24,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen bg-gradient-to-br from-cream-50 to-cream-100">
+        <ScrollToTop />
         <Header 
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -45,6 +49,8 @@ function App() {
         
         <Footer />
         <WhatsAppFloat />
+        <FloatingSocial />
+        <BackToTop />
         <AdminLink onAdminAccess={() => setShowAdminPanel(true)} />
         <CMSAdminLink />
         {showAdminPanel && <AdminPanel />}
