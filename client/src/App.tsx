@@ -6,13 +6,16 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import AdminPanel from './components/AdminPanel';
+import AdminLink from './components/AdminLink';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import SearchResultsPage from './pages/SearchResultsPage';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -29,6 +32,7 @@ function App() {
             <Route path="/" component={HomePage} />
             <Route path="/category/:category" component={CategoryPage} />
             <Route path="/product/:id" component={ProductDetailPage} />
+            <Route path="/search" component={SearchResultsPage} />
             <Route>
               <div className="container mx-auto px-4 py-8 text-center">
                 <h1 className="text-4xl font-bold mb-4">Page Not Found</h1>
@@ -40,7 +44,8 @@ function App() {
         
         <Footer />
         <WhatsAppFloat />
-        <AdminPanel />
+        <AdminLink onAdminAccess={() => setShowAdminPanel(true)} />
+        {showAdminPanel && <AdminPanel />}
       </div>
     </QueryClientProvider>
   );

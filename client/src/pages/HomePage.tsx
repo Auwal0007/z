@@ -1,5 +1,6 @@
 import Hero from '../components/Hero';
 import ProductGrid from '../components/ProductGrid';
+import CategoryShowcase from '../components/CategoryShowcase';
 import { useQuery } from '@tanstack/react-query';
 import { Product } from '@shared/schema';
 import { useState } from 'react';
@@ -33,11 +34,20 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <ProductGrid 
-        products={filteredProducts}
-        searchQuery={searchQuery}
-        selectedCategory={selectedCategory}
-      />
+      <CategoryShowcase />
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl lg:text-4xl font-bold text-burgundy-900 mb-4 font-playfair">
+            Featured Products
+          </h2>
+          <div className="w-24 h-1 bg-gold-500 mx-auto rounded-full mb-6"></div>
+        </div>
+        <ProductGrid 
+          products={filteredProducts}
+          searchQuery={searchQuery}
+          selectedCategory={selectedCategory}
+        />
+      </div>
     </>
   );
 }

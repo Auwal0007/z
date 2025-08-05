@@ -1,7 +1,8 @@
 import React from 'react';
-import { MessageCircle, Sparkles } from 'lucide-react';
+import { MessageCircle, Sparkles, ShoppingBag } from 'lucide-react';
 import { Link } from 'wouter';
 import { Product } from '@shared/schema';
+import { useShoppingCart } from './ShoppingCart';
 
 interface ProductCardProps {
   product: Product;
@@ -9,6 +10,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) => {
+  const { addToCart } = useShoppingCart();
   const formatPrice = (price: string) => {
     const numPrice = parseFloat(price);
     return new Intl.NumberFormat('en-NG', {
@@ -42,6 +44,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) 
     const message = `Hi! I'm interested in ${product.name} (${formatPrice(product.price)}). Could you provide more details?`;
     const whatsappUrl = `https://wa.me/2348038507754?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    // Optional: Show a success message or animation
   };
 
   return (
@@ -91,14 +98,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) 
           </div>
         </div>
 
-        {/* WhatsApp Button */}
-        <button
-          onClick={handleWhatsAppClick}
-          className="w-full mt-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
-        >
-          <MessageCircle className="h-5 w-5" />
-          <span>Buy on WhatsApp</span>
-        </button>
+        {/* Action Buttons */}
+        <div className="flex space-x-2 mt-4">
+          <button
+            onClick={handleAddToCart}
+            className="flex-1 bg-burgundy-600 hover:bg-burgundy-700 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+            data-testid={`button-add-to-cart-${product.id}`}
+          >
+            <ShoppingBag className="h-4 w-4" />
+            <span>Add to Cart</span>
+          </button>
+          <button
+            onClick={handleWhatsAppClick}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
+            data-testid={`button-whatsapp-${product.id}`}
+          >
+            <MessageCircle className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </div>
   );
