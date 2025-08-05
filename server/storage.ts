@@ -1,4 +1,6 @@
 import { users, products, type User, type InsertUser, type Product, type InsertProduct } from "@shared/schema";
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 // modify the interface with any CRUD methods
 // you might need
@@ -31,7 +33,42 @@ export class MemStorage implements IStorage {
     this.products = new Map();
     this.currentUserId = 1;
     this.currentProductId = 1;
-    this.seedProducts();
+    this.loadCMSProducts();
+  }
+
+  private loadCMSProducts() {
+    try {
+      // Load products from CMS-generated static content
+      const staticProductsPath = join(process.cwd(), 'src/data/staticProducts.json');
+      const staticProducts = JSON.parse(readFileSync(staticProductsPath, 'utf-8'));
+      
+      if (staticProducts.products && Array.isArray(staticProducts.products)) {
+        staticProducts.products.forEach((product: any) => {
+          const id = typeof product.id === 'string' ? parseInt(product.id) : product.id;
+          const productWithId: Product = {
+            id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            category: product.category,
+            description: product.description,
+            featured: product.featured ?? false,
+            newArrival: product.newArrival ?? false
+          };
+          this.products.set(id, productWithId);
+          
+          // Update currentProductId to avoid conflicts
+          if (id >= this.currentProductId) {
+            this.currentProductId = id + 1;
+          }
+        });
+        
+        console.log(`✅ Loaded ${staticProducts.products.length} products from CMS`);
+      }
+    } catch (error) {
+      console.warn('⚠️  Could not load CMS products, falling back to hardcoded products:', error);
+      this.seedProducts();
+    }
   }
 
   private seedProducts() {

@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 6220,
+      "id": 5020,
       "name": "English Rose Garden",
       "price": "18000",
       "category": "english",
@@ -11,7 +11,17 @@
       "newArrival": true
     },
     {
-      "id": 5555,
+      "id": 1938,
+      "name": "nice perfume",
+      "price": "10000",
+      "category": "luxury",
+      "description": "Onboding \nCommunication\nHow they handle enquiries \n",
+      "image": "/images/products/screenshot.png",
+      "featured": true,
+      "newArrival": true
+    },
+    {
+      "id": 262,
       "name": "Royal Oud Collection",
       "price": "25000",
       "category": "arabian",
@@ -21,6 +31,6 @@
       "newArrival": false
     }
   ],
-  "lastGenerated": "2025-08-05T21:39:27.295Z",
-  "count": 2
+  "lastGenerated": "2025-08-05T21:51:00.874Z",
+  "count": 3
 }
