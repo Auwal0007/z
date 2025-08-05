@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Search, ShoppingBag, TrendingUp, Users, Award } from 'lucide-react';
 
+
 const Hero: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   // Featured perfume images for carousel - focused on fragrances
   const featuredImages = [
-    'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600', // Perfume bottles
-    'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600', // Elegant perfume application
-    'https://images.pexels.com/photos/8980834/pexels-photo-8980834.jpeg?auto=compress&cs=tinysrgb&w=600', // Luxury fragrance collection
+    '/images/per.jpg', // Perfume bottles
+    '/images/per2.jpg', // Elegant perfume application
+    '/images/per4.jpg', // Luxury fragrance collection
+    '/images/per3.jpg', // Artistic perfume display
+    '/images/per1.jpg', // Premium fragrance showcase
   ];
 
   // Auto-rotate images every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % featuredImages.length);
-    }, 4000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [featuredImages.length]);
 
@@ -47,7 +50,7 @@ const Hero: React.FC = () => {
               <div className="flex items-center space-x-3 bg-black/20 backdrop-blur-lg px-3 sm:px-8 py-1.5 sm:py-4 rounded-full border border-gold-300/30 shadow-xl">
                 <div className="flex items-center space-x-1">
                   <TrendingUp className="h-3 w-3 sm:h-5 sm:w-5 text-gold-300" />
-                  <span className="text-white font-semibold text-xs sm:text-base drop-shadow-lg">10,000+ Sold</span>
+                  <span className="text-white font-semibold text-xs sm:text-base drop-shadow-lg">10,000+ Perfumes Sold</span>
                 </div>
                 <div className="w-px h-3 sm:h-5 bg-gold-300/40"></div>
                 <div className="flex items-center space-x-1">
@@ -65,12 +68,6 @@ const Hero: React.FC = () => {
               </div>
             </div>
             
-            {/* Main heading with better contrast - Super compact mobile */}
-            <h1 className="text-xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 sm:mb-8 font-playfair leading-tight animate-slideUp delay-200 drop-shadow-2xl">
-              Discover the Art of
-              <span className="block text-gold-300 animate-shimmer drop-shadow-lg">Fine Fragrances</span>
-            </h1>
-
             {/* SEO-Optimized Subheading - Ultra compact mobile */}
             <div className="mb-2 sm:mb-8 animate-slideUp delay-300">
               <p className="text-xs sm:text-xl lg:text-2xl text-white font-semibold drop-shadow-lg bg-black/20 backdrop-blur-sm px-2 sm:px-4 py-1 sm:py-2 rounded-lg inline-block">
@@ -125,14 +122,28 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Right Content - Product Showcase - Ultra compact mobile */}
-          <div className="flex justify-center lg:justify-end order-1 lg:order-2 animate-slideRight">
-            <div className="relative group">
-              {/* Main Product Image - Much smaller on mobile */}
-              <div className="relative w-32 h-48 sm:w-80 sm:h-96 lg:w-96 lg:h-[28rem] rounded-3xl overflow-hidden shadow-2xl transform rotate-3 group-hover:rotate-0 transition-transform duration-700">
+          <div className="flex flex-col justify-center lg:justify-end order-1 lg:order-2 animate-slideRight max-w-full items-center">
+            {/* Main heading with better contrast - Above images */}
+            <div className="text-center mb-4">
+              <h1 className="text-xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 sm:mb-4 font-playfair leading-tight animate-slideUp delay-200 drop-shadow-2xl">
+                Discover the Art of
+                <span className="block text-gold-300 animate-shimmer drop-shadow-lg">Fine Fragrances</span>
+              </h1>
+            </div>
+            
+            <div className="relative group max-w-full">
+              {/* Main Product Image - Properly sized for mobile */}
+              <div className="relative w-56 h-48 sm:w-80 sm:h-96 lg:w-96 lg:h-[28rem] rounded-3xl overflow-hidden shadow-2xl transform rotate-3 group-hover:rotate-0 transition-transform duration-700 mx-auto">
                 <img
                   src={featuredImages[currentImageIndex]}
                   alt="Featured Perfume"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  onError={(e) => {
+                    console.log('Image failed to load:', featuredImages[currentImageIndex]);
+                    // Fallback to a placeholder or first external image
+                    e.currentTarget.src = 'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600';
+                  }}
+                  onLoad={() => console.log('Image loaded successfully:', featuredImages[currentImageIndex])}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-burgundy-900/60 via-transparent to-gold-400/20"></div>
                 
@@ -153,9 +164,9 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Floating Product Cards - Much smaller on mobile */}
-              <div className="absolute -top-1 -left-1 sm:-top-4 sm:-left-4 w-8 h-10 sm:w-20 sm:h-24 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 animate-float"></div>
-              <div className="absolute -bottom-1 -right-1 sm:-bottom-4 sm:-right-4 w-6 h-8 sm:w-16 sm:h-20 bg-gold-400/20 backdrop-blur-md rounded-2xl border border-gold-300/30 animate-float delay-1000"></div>
+              {/* Floating Product Cards - Proportionally adjusted */}
+              <div className="absolute -top-1 -left-1 sm:-top-4 sm:-left-4 w-12 h-10 sm:w-20 sm:h-24 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 animate-float"></div>
+              <div className="absolute -bottom-1 -right-1 sm:-bottom-4 sm:-right-4 w-10 h-8 sm:w-16 sm:h-20 bg-gold-400/20 backdrop-blur-md rounded-2xl border border-gold-300/30 animate-float delay-1000"></div>
             </div>
           </div>
         </div>

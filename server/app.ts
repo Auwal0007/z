@@ -1,11 +1,15 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { log } from "./vite";
+import path from "path";
 
 export async function createApp() {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
+
+  // Serve static images from public/images directory
+  app.use('/images', express.static(path.resolve(process.cwd(), 'public', 'images')));
 
   app.use((req, res, next) => {
     const start = Date.now();
