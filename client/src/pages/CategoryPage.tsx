@@ -40,6 +40,7 @@ export default function CategoryPage() {
         products={products}
         searchQuery=""
         selectedCategory={category || 'all'}
+        showFeatured={false}
       />
     </div>
   );

@@ -49,6 +49,7 @@ const SearchResultsPage: React.FC = () => {
           products={searchResults}
           searchQuery={query}
           selectedCategory="all"
+          showFeatured={false}
         />
       ) : (
         <div className="text-center py-16">
