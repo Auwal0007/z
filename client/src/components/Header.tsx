@@ -44,6 +44,7 @@ interface HeaderProps {
 
 const categories: Category[] = [
   { id: 'all', name: 'All Products', value: 'all' },
+  { id: 'new', name: 'New Arrivals', value: 'new-arrivals' },
   { id: 'arabian', name: 'Arabian Perfumes', value: 'arabian' },
   { id: 'english', name: 'English Perfumes', value: 'english' },
   { id: 'oil', name: 'Oil Perfumes', value: 'oil' },
@@ -72,20 +73,27 @@ const Header: React.FC<HeaderProps> = ({
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-1">
             {categories.map((category) => (
               <Link
                 key={category.id}
                 href={category.value === 'all' ? '/' : `/category/${category.value}`}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                className={`group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   (category.value === 'all' && location === '/') || 
                   (location === `/category/${category.value}`)
-                    ? 'text-burgundy-600 bg-gold-100 shadow-sm'
-                    : 'text-gray-700 hover:text-burgundy-600 hover:bg-cream-100'
+                    ? 'text-burgundy-600 bg-gold-100/80 shadow-sm'
+                    : 'text-gray-700 hover:text-burgundy-600 hover:bg-cream-50'
                 }`}
                 data-testid={`link-category-${category.value}`}
               >
-                {category.name}
+                <span className="relative z-10">{category.name}</span>
+                {/* Modern underline effect */}
+                <div className={`absolute bottom-0 left-1/2 h-0.5 bg-burgundy-500 transition-all duration-300 ${
+                  (category.value === 'all' && location === '/') || 
+                  (location === `/category/${category.value}`)
+                    ? 'w-3/4 -translate-x-1/2'
+                    : 'w-0 -translate-x-1/2 group-hover:w-3/4'
+                }`}></div>
               </Link>
             ))}
           </nav>

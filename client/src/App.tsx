@@ -4,10 +4,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import WhatsAppFloat from './components/WhatsAppFloat';
+// import WhatsAppFloat from './components/WhatsAppFloat';
 import FloatingSocial from './components/FloatingSocial';
 import ScrollToTop from './components/ScrollToTop';
 import BackToTop from './components/BackToTop';
+// import UrgencyTicker from './components/UrgencyTicker';
 import AdminPanel from './components/AdminPanel';
 import AdminLink from './components/AdminLink';
 import CMSAdminLink from './components/CMSAdminLink';
@@ -25,6 +26,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen bg-gradient-to-br from-cream-50 to-cream-100">
         <ScrollToTop />
+        {/* <UrgencyTicker /> */}
         <Header 
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -48,7 +50,7 @@ function App() {
         </main>
         
         <Footer />
-        <WhatsAppFloat />
+        {/* <WhatsAppFloat /> */}
         <FloatingSocial />
         <BackToTop />
         <AdminLink onAdminAccess={() => setShowAdminPanel(true)} />
