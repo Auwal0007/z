@@ -13,6 +13,10 @@ export default function HomePage() {
     queryKey: ['api', 'products'],
   });
 
+  const { data: newArrivals = [] } = useQuery<Product[]>({
+    queryKey: ['api', 'products', 'new-arrivals'],
+  });
+
   // Filter products based on search and category
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
@@ -38,6 +42,7 @@ export default function HomePage() {
       <div className="container mx-auto px-4 py-4">
         <ProductGrid 
           products={filteredProducts}
+          newArrivals={newArrivals}
           searchQuery={searchQuery}
           selectedCategory={selectedCategory}
         />

@@ -13,6 +13,7 @@ export interface IStorage {
   getProduct(id: number): Promise<Product | undefined>;
   getProductsByCategory(category: string): Promise<Product[]>;
   getFeaturedProducts(): Promise<Product[]>;
+  getNewArrivals(): Promise<Product[]>;
   createProduct(product: InsertProduct): Promise<Product>;
   updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product | undefined>;
   deleteProduct(id: number): Promise<boolean>;
@@ -41,7 +42,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'arabian',
         description: 'Premium Arabian oud perfume with rich, woody notes and exotic spices. Long-lasting fragrance perfect for special occasions.',
-        featured: true
+        featured: true,
+        newArrival: true
       },
       {
         name: 'English Rose Garden',
@@ -49,7 +51,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/1190829/pexels-photo-1190829.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'english',
         description: 'Elegant English perfume with fresh rose petals, bergamot, and subtle vanilla undertones. Perfect for daily wear.',
-        featured: true
+        featured: true,
+        newArrival: false
       },
       {
         name: 'Amber Oil Essence',
@@ -57,7 +60,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/6621496/pexels-photo-6621496.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'oil',
         description: 'Pure amber oil perfume with warm, sensual notes. Alcohol-free formula that lasts all day.',
-        featured: false
+        featured: false,
+        newArrival: true
       },
       {
         name: 'Luxury Platinum',
@@ -65,7 +69,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/1190829/pexels-photo-1190829.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'luxury',
         description: 'Exclusive luxury perfume with rare ingredients. A sophisticated blend of citrus, florals, and musk.',
-        featured: true
+        featured: true,
+        newArrival: false
       },
       {
         name: 'Musk Al-Sharq',
@@ -73,7 +78,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'arabian',
         description: 'Traditional Arabian musk with deep, intoxicating notes. A timeless fragrance that captures the essence of the Middle East.',
-        featured: false
+        featured: false,
+        newArrival: true
       },
       {
         name: 'Lavender Dreams',
@@ -81,7 +87,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/1190829/pexels-photo-1190829.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'english',
         description: 'Calming English lavender perfume with chamomile and soft woods. Perfect for relaxation and evening wear.',
-        featured: false
+        featured: false,
+        newArrival: false
       },
       {
         name: 'Sandalwood Oil',
@@ -89,7 +96,8 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/6621496/pexels-photo-6621496.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'oil',
         description: 'Premium sandalwood oil with creamy, woody fragrance. Natural and long-lasting with therapeutic properties.',
-        featured: false
+        featured: false,
+        newArrival: false
       },
       {
         name: 'Diamond Elite',
@@ -97,13 +105,19 @@ export class MemStorage implements IStorage {
         image: 'https://images.pexels.com/photos/1190829/pexels-photo-1190829.jpeg?auto=compress&cs=tinysrgb&w=800',
         category: 'luxury',
         description: 'Ultra-premium luxury perfume with rare French ingredients. Limited edition collection for the discerning connoisseur.',
-        featured: true
+        featured: true,
+        newArrival: true
       }
     ];
 
     initialProducts.forEach(product => {
       const id = this.currentProductId++;
-      const productWithId: Product = { ...product, featured: product.featured ?? false, id };
+      const productWithId: Product = { 
+        ...product, 
+        featured: product.featured ?? false, 
+        newArrival: product.newArrival ?? false,
+        id 
+      };
       this.products.set(id, productWithId);
     });
   }
@@ -145,9 +159,20 @@ export class MemStorage implements IStorage {
     );
   }
 
+  async getNewArrivals(): Promise<Product[]> {
+    return Array.from(this.products.values()).filter(
+      (product) => product.newArrival === true,
+    );
+  }
+
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
     const id = this.currentProductId++;
-    const product: Product = { ...insertProduct, featured: insertProduct.featured ?? false, id };
+    const product: Product = { 
+      ...insertProduct, 
+      featured: insertProduct.featured ?? false, 
+      newArrival: insertProduct.newArrival ?? false,
+      id 
+    };
     this.products.set(id, product);
     return product;
   }

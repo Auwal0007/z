@@ -38,6 +38,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get new arrival products
+  app.get("/api/products/new-arrivals", async (req, res) => {
+    try {
+      const products = await storage.getNewArrivals();
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch new arrival products" });
+    }
+  });
+
   // Search products
   app.get("/api/products/search", async (req, res) => {
     try {

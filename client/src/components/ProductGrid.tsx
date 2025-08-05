@@ -4,6 +4,7 @@ import { Product } from '@shared/schema';
 
 interface ProductGridProps {
   products: Product[];
+  newArrivals?: Product[];
   searchQuery?: string;
   selectedCategory?: string;
   showFeatured?: boolean; // New prop to control featured products display
@@ -11,6 +12,7 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ 
   products, 
+  newArrivals = [],
   searchQuery = '', 
   selectedCategory = 'all', 
   showFeatured = true // Default to true for backward compatibility
@@ -18,20 +20,24 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   const featuredProducts = products.filter(product => product.featured);
   const regularProducts = products.filter(product => !product.featured);
 
+  // On homepage (when newArrivals is provided), show new arrivals instead of featured products
+  const isHomepage = newArrivals.length > 0 || (selectedCategory === 'all' && !searchQuery);
+  const displayProducts = isHomepage && newArrivals.length > 0 ? newArrivals : featuredProducts;
+
   return (
     <section id="products" className="">
       <div>
-        {/* Featured Products - Only show if showFeatured is true */}
-        {showFeatured && featuredProducts.length > 0 && (
+        {/* Featured/New Arrivals Products - Only show if showFeatured is true */}
+        {showFeatured && displayProducts.length > 0 && (
           <div className="mb-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-burgundy-900 mb-4 font-playfair">
-                Featured Collection
+                {isHomepage && newArrivals.length > 0 ? 'New Arrivals' : 'Featured Collection'}
               </h2>
               <div className="w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-              {featuredProducts.map((product) => (
+              {displayProducts.map((product) => (
                 <ProductCard key={product.id} product={product} featured />
               ))}
             </div>
@@ -42,8 +48,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         <div>
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-burgundy-900 mb-2 sm:mb-4 font-playfair px-4">
-              {showFeatured && products.length === featuredProducts.length ? 'Our Collection' : 
-               showFeatured ? 'New Arrivals' : 
+              {showFeatured && products.length === displayProducts.length ? 'Our Collection' : 
+               showFeatured ? 'Our Collection' : 
                selectedCategory && selectedCategory !== 'all' ? 
                  `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Collection` : 
                  'Our Collection'}
@@ -72,8 +78,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-0">
-              {/* Show regular products when featured section is shown, or all products when featured is disabled */}
-              {(showFeatured ? regularProducts : products).map((product) => (
+              {/* Show products excluding the ones already shown in featured/new arrivals section */}
+              {(showFeatured ? 
+                products.filter(product => 
+                  !(isHomepage && newArrivals.length > 0 ? 
+                    newArrivals.some(na => na.id === product.id) : 
+                    product.featured
+                  )
+                ) : 
+                products
+              ).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

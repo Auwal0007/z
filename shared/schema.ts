@@ -16,6 +16,7 @@ export const products = pgTable("products", {
   category: text("category").notNull(),
   description: text("description").notNull(),
   featured: boolean("featured").default(false),
+  newArrival: boolean("new_arrival").default(false),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
