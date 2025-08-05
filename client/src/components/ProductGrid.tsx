@@ -30,7 +30,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               </h2>
               <div className="w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} featured />
               ))}
@@ -40,16 +40,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
         {/* All Products */}
         <div>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-burgundy-900 mb-4 font-playfair">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-burgundy-900 mb-2 sm:mb-4 font-playfair px-4">
               {showFeatured && products.length === featuredProducts.length ? 'Our Collection' : 
                showFeatured ? 'All Products' : 
                selectedCategory && selectedCategory !== 'all' ? 
                  `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Collection` : 
                  'Our Collection'}
             </h2>
-            <div className="w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
-            <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+            <div className="w-16 sm:w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
+            <p className="text-gray-600 mt-2 sm:mt-4 max-w-2xl mx-auto px-4 text-sm sm:text-base">
               {products.length === 0 
                 ? 'No products found matching your criteria.' 
                 : `Showing ${products.length} ${products.length === 1 ? 'product' : 'products'}`
@@ -71,7 +71,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-0">
               {/* Show regular products when featured section is shown, or all products when featured is disabled */}
               {(showFeatured ? regularProducts : products).map((product) => (
                 <ProductCard key={product.id} product={product} />

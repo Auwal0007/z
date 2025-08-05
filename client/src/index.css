@@ -44,6 +44,9 @@
   body {
     font-family: 'Inter', sans-serif;
     background-color: #fefdf8; /* cream-50 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -65,11 +68,51 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  
+  /* Mobile-optimized touch targets */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Improved tap highlighting */
+  .touch-manipulation:active {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Mobile-optimized text sizes */
+  @media (max-width: 640px) {
+    .text-responsive-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+    
+    .text-responsive-base {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+    
+    .text-responsive-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+  }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - thinner on mobile */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
+}
+
+@media (min-width: 640px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 }
 
 ::-webkit-scrollbar-track {
@@ -99,11 +142,27 @@ img:not([src]) {
   opacity: 0;
 }
 
-/* Custom animations */
+/* Mobile-optimized loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Custom animations - faster on mobile */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -111,16 +170,71 @@ img:not([src]) {
   }
 }
 
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease forwards;
+@media (min-width: 640px) {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
-/* Focus styles for accessibility */
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@media (min-width: 640px) {
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease forwards;
+  }
+}
+
+/* Focus styles for accessibility - larger on mobile */
 button:focus,
 input:focus,
 a:focus {
   outline: 2px solid #f59e0b;
   outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  button:focus,
+  input:focus,
+  a:focus {
+    outline: 3px solid #f59e0b;
+    outline-offset: 3px;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 640px) {
+  /* Prevent zoom on input focus */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Optimize button tap areas */
+  button,
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improve text contrast on small screens */
+  .text-gray-600 {
+    color: #4b5563;
+  }
+  
+  /* Reduce motion for better performance on mobile */
+  * {
+    transition-duration: 0.2s !important;
+  }
 }
 
 /* High contrast mode support */
@@ -147,4 +261,34 @@ a:focus {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  
+  .animate-bounce {
+    animation: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+  }
+}
+
+/* Optimize for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .hero-section {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Fix viewport height on mobile */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
 }
