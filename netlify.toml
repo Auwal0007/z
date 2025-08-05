@@ -8,16 +8,32 @@
   NODE_ENV = "production"
   NETLIFY_CACHE_ID = "node-20-18-0"
 
+# Headers for admin access security
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# Admin route redirect - must come before catch-all
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
+  from = "/admin"
+  to = "/admin/"
+  status = 301
 
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
   status = 200
 
+# API redirects
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# SPA catch-all redirect (must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
