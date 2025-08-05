@@ -9,6 +9,11 @@
   NETLIFY_CACHE_ID = "node-20-18-0"
 
 [[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
   status = 200
