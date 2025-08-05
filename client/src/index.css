@@ -1,10 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Perfume store color palette */
+    --burgundy-50: #fdf2f2;
+    --burgundy-100: #fce7e7;
+    --burgundy-200: #fbd1d1;
+    --burgundy-300: #f7aaa8;
+    --burgundy-400: #f17a7a;
+    --burgundy-500: #e74c3c;
+    --burgundy-600: #d73430;
+    --burgundy-700: #b91c1c;
+    --burgundy-800: #991b1b;
+    --burgundy-900: #7c2d12;
+    
+    --gold-50: #fffbeb;
+    --gold-100: #fef3c7;
+    --gold-200: #fde68a;
+    --gold-300: #fcd34d;
+    --gold-400: #fbbf24;
+    --gold-500: #d97706;
+    --gold-600: #b45309;
+    --gold-700: #92400e;
+    --gold-800: #78350f;
+    --gold-900: #451a03;
+    
+    --cream-50: #fefdf8;
+    --cream-100: #fef7e0;
+    --cream-200: #fef2d4;
+    --cream-300: #fde8b4;
+    --cream-400: #fcd980;
+    --cream-500: #faca15;
+    --cream-600: #eab308;
+    --cream-700: #ca8a04;
+    --cream-800: #a16207;
+    --cream-900: #713f12;
+  }
+  
   body {
     font-family: 'Inter', sans-serif;
+    background-color: #fefdf8; /* cream-50 */
   }
   
   h1, h2, h3, h4, h5, h6 {
