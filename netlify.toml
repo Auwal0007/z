@@ -3,8 +3,9 @@
   command = "npm run build:netlify"
 
 [build.environment]
-  NODE_VERSION = "20.10.0"
-  NPM_FLAGS = "--no-optional"
+  NODE_VERSION = "20.18.0"
+  NPM_FLAGS = "--prefer-offline --no-audit --no-fund"
+  NODE_ENV = "production"
 
 [[redirects]]
   from = "/admin/*"
