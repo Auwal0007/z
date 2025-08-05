@@ -8,6 +8,7 @@
    return (
      <>
 +      <SEOHead 
+   )
 +        title="Premium Perfumes & Fragrances"
 +        description="Discover our exquisite collection of Arabian, English, Oil, and Luxury perfumes. Premium fragrances for every occasion."
 +      />
