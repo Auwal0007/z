@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageCircle, Sparkles } from 'lucide-react';
-import { Product } from '../types/Product';
+import { Link } from 'wouter';
+import { Product } from '@shared/schema';
 
 interface ProductCardProps {
   product: Product;
@@ -8,12 +9,13 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) => {
-  const formatPrice = (price: number) => {
+  const formatPrice = (price: string) => {
+    const numPrice = parseFloat(price);
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
       currency: 'NGN',
       minimumFractionDigits: 0,
-    }).format(price);
+    }).format(numPrice);
   };
 
   const getCategoryColor = (category: string) => {
@@ -73,9 +75,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) 
           </span>
         </div>
 
-        <h3 className="text-xl font-bold text-burgundy-900 mb-2 font-playfair line-clamp-2 group-hover:text-burgundy-700 transition-colors duration-200">
-          {product.name}
-        </h3>
+        <Link href={`/product/${product.id}`}>
+          <h3 className="text-xl font-bold text-burgundy-900 mb-2 font-playfair line-clamp-2 group-hover:text-burgundy-700 transition-colors duration-200 cursor-pointer">
+            {product.name}
+          </h3>
+        </Link>
 
         <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
           {product.description}

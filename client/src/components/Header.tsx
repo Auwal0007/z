@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Search, Menu, X, ShoppingBag } from 'lucide-react';
-import { Category } from '../types/Product';
+import { Link, useLocation } from 'wouter';
+
+interface Category {
+  id: string;
+  name: string;
+  value: string;
+}
 
 interface HeaderProps {
   searchQuery: string;
@@ -24,33 +30,36 @@ const Header: React.FC<HeaderProps> = ({
   setSelectedCategory 
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [location] = useLocation();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gold-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
+          <Link href="/" className="flex-shrink-0 flex items-center">
             <ShoppingBag className="h-8 w-8 text-burgundy-600 mr-2" />
             <h1 className="text-2xl font-bold text-burgundy-800 font-playfair">
               Zubees Collectibles
             </h1>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {categories.map((category) => (
-              <button
+              <Link
                 key={category.id}
-                onClick={() => setSelectedCategory(category.value)}
+                href={category.value === 'all' ? '/' : `/category/${category.value}`}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  selectedCategory === category.value
+                  (category.value === 'all' && location === '/') || 
+                  (location === `/category/${category.value}`)
                     ? 'text-burgundy-600 bg-gold-100 shadow-sm'
                     : 'text-gray-700 hover:text-burgundy-600 hover:bg-cream-100'
                 }`}
+                data-testid={`link-category-${category.value}`}
               >
                 {category.name}
-              </button>
+              </Link>
             ))}
           </nav>
 

@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Save, X, Upload } from 'lucide-react';
-import { Product } from '../types/Product';
+import { Product, InsertProduct, insertProductSchema } from '@shared/schema';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { apiRequest, queryClient } from '../lib/queryClient';
 
-interface AdminPanelProps {
-  products: Product[];
-  onProductsChange: (products: Product[]) => void;
-}
+interface AdminPanelProps {}
 
-const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) => {
+const AdminPanel: React.FC<AdminPanelProps> = () => {
+  const { data: products = [], isLoading } = useQuery<Product[]>({
+    queryKey: ['/api/products'],
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
-  const [formData, setFormData] = useState<Partial<Product>>({
+  const [formData, setFormData] = useState<Partial<InsertProduct>>({
     name: '',
-    price: 0,
+    price: '0',
     image: '',
     category: 'arabian',
     description: '',
@@ -27,7 +29,39 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) =
     { value: 'luxury', label: 'Luxury Collection' }
   ];
 
-  const handleInputChange = (field: keyof Product, value: any) => {
+  const createMutation = useMutation({
+    mutationFn: (product: InsertProduct) => apiRequest('/api/products', {
+      method: 'POST',
+      body: JSON.stringify(product),
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      handleCancel();
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, product }: { id: number; product: Partial<InsertProduct> }) => 
+      apiRequest(`/api/products/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(product),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      handleCancel();
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => apiRequest(`/api/products/${id}`, {
+      method: 'DELETE',
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+    },
+  });
+
+  const handleInputChange = (field: keyof InsertProduct, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -37,25 +71,20 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) =
       return;
     }
 
-    const newProduct: Product = {
-      id: editingProduct?.id || Date.now().toString(),
+    const productData: InsertProduct = {
       name: formData.name!,
       price: formData.price!,
       image: formData.image!,
-      category: formData.category as any,
+      category: formData.category!,
       description: formData.description || '',
       featured: formData.featured || false
     };
 
-    let updatedProducts;
     if (editingProduct) {
-      updatedProducts = products.map(p => p.id === editingProduct.id ? newProduct : p);
+      updateMutation.mutate({ id: editingProduct.id, product: productData });
     } else {
-      updatedProducts = [...products, newProduct];
+      createMutation.mutate(productData);
     }
-
-    onProductsChange(updatedProducts);
-    handleCancel();
   };
 
   const handleEdit = (product: Product) => {
@@ -64,10 +93,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) =
     setIsAddingNew(false);
   };
 
-  const handleDelete = (productId: string) => {
+  const handleDelete = (productId: number) => {
     if (confirm('Are you sure you want to delete this product?')) {
-      const updatedProducts = products.filter(p => p.id !== productId);
-      onProductsChange(updatedProducts);
+      deleteMutation.mutate(productId);
     }
   };
 
@@ -75,7 +103,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) =
     setEditingProduct(null);
     setFormData({
       name: '',
-      price: 0,
+      price: '0',
       image: '',
       category: 'arabian',
       description: '',
@@ -89,7 +117,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) =
     setIsAddingNew(false);
     setFormData({
       name: '',
-      price: 0,
+      price: '0',
       image: '',
       category: 'arabian',
       description: '',
@@ -97,12 +125,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ products, onProductsChange }) =
     });
   };
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (price: string) => {
+    const numPrice = parseFloat(price);
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
       currency: 'NGN',
       minimumFractionDigits: 0,
-    }).format(price);
+    }).format(numPrice);
   };
 
   if (!isOpen) {
