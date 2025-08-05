@@ -4,11 +4,11 @@ import { Sparkles, Search, ShoppingBag, TrendingUp, Users, Award } from 'lucide-
 const Hero: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Featured product images for carousel
+  // Featured perfume images for carousel - focused on fragrances
   const featuredImages = [
-    'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1190829/pexels-photo-1190829.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/6621496/pexels-photo-6621496.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600', // Perfume bottles
+    'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600', // Elegant perfume application
+    'https://images.pexels.com/photos/8980834/pexels-photo-8980834.jpeg?auto=compress&cs=tinysrgb&w=600', // Luxury fragrance collection
   ];
 
   // Auto-rotate images every 4 seconds
@@ -21,101 +21,106 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-burgundy-900 via-burgundy-800 to-burgundy-700 min-h-screen sm:min-h-[90vh]">
-      {/* Background Texture Overlay */}
-      <div className="absolute inset-0 opacity-10">
+      {/* Enhanced Background with Perfume-focused Pattern */}
+      <div className="absolute inset-0">
+        {/* Perfume bottle silhouette pattern */}
         <div 
-          className="w-full h-full bg-cover bg-center bg-no-repeat"
+          className="w-full h-full bg-cover bg-center bg-no-repeat opacity-5"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpath d='M50 10c-5 0-9 4-9 9v15c0 3-2 5-5 5h-6c-3 0-5 2-5 5v35c0 8 7 15 15 15h20c8 0 15-7 15-15V44c0-3-2-5-5-5h-6c-3 0-5-2-5-5V19c0-5-4-9-9-9z'/%3E%3Ccircle cx='50' cy='15' r='3'/%3E%3C/g%3E%3C/svg%3E")`
           }}
         />
+        {/* Additional texture overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-burgundy-900/80 via-burgundy-800/70 to-burgundy-700/80"></div>
       </div>
       
-      {/* Smoke/Swirl Effect */}
-      <div className="absolute inset-0 bg-gradient-to-t from-burgundy-900/50 via-transparent to-burgundy-800/30"></div>
+      {/* Improved Smoke/Swirl Effect for better contrast */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-burgundy-900/30"></div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 flex items-center min-h-screen sm:min-h-[90vh]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 flex items-center min-h-screen sm:min-h-[90vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
           
-          {/* Left Content */}
+          {/* Left Content - Enhanced spacing and contrast */}
           <div className="text-center lg:text-left order-2 lg:order-1">
-            {/* Social Proof Banner */}
-            <div className="flex justify-center lg:justify-start mb-4 sm:mb-6 animate-fadeIn">
-              <div className="flex items-center space-x-4 bg-gold-200/15 backdrop-blur-md px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-gold-300/20 shadow-lg">
-                <div className="flex items-center space-x-1">
-                  <TrendingUp className="h-4 w-4 text-gold-300" />
-                  <span className="text-gold-200 font-medium text-xs sm:text-sm">10,000+ Sold</span>
+            {/* Social Proof Banner - Better mobile spacing */}
+            <div className="flex justify-center lg:justify-start mb-6 sm:mb-8 animate-fadeIn">
+              <div className="flex items-center space-x-4 bg-black/20 backdrop-blur-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-gold-300/30 shadow-xl">
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-gold-300" />
+                  <span className="text-white font-semibold text-sm sm:text-base drop-shadow-lg">10,000+ Sold</span>
                 </div>
-                <div className="w-px h-4 bg-gold-300/30"></div>
-                <div className="flex items-center space-x-1">
-                  <Award className="h-4 w-4 text-gold-300" />
-                  <span className="text-gold-200 font-medium text-xs sm:text-sm">Since 2022</span>
+                <div className="w-px h-5 bg-gold-300/40"></div>
+                <div className="flex items-center space-x-2">
+                  <Award className="h-4 w-4 sm:h-5 sm:w-5 text-gold-300" />
+                  <span className="text-white font-semibold text-sm sm:text-base drop-shadow-lg">Since 2022</span>
                 </div>
               </div>
             </div>
 
-            {/* Premium Badge */}
-            <div className="flex justify-center lg:justify-start mb-4 sm:mb-6 animate-slideUp">
-              <div className="flex items-center space-x-2 bg-gold-200/20 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-gold-300/30">
-                <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-gold-300 animate-pulse" />
-                <span className="text-gold-200 font-medium text-sm sm:text-base">Premium Collection</span>
+            {/* Premium Badge - Enhanced contrast */}
+            <div className="flex justify-center lg:justify-start mb-6 sm:mb-8 animate-slideUp">
+              <div className="flex items-center space-x-3 bg-black/25 backdrop-blur-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-gold-400/40 shadow-lg">
+                <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-gold-300 animate-pulse" />
+                <span className="text-white font-semibold text-base sm:text-lg drop-shadow-lg">Premium Collection</span>
               </div>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 font-playfair leading-tight animate-slideUp delay-200">
+            {/* Main heading with better contrast */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-8 font-playfair leading-tight animate-slideUp delay-200 drop-shadow-2xl">
               Discover the Art of
-              <span className="block text-gold-300 animate-shimmer">Fine Fragrances</span>
+              <span className="block text-gold-300 animate-shimmer drop-shadow-lg">Fine Fragrances</span>
             </h1>
 
-            {/* SEO-Optimized Subheading */}
-            <div className="mb-4 animate-slideUp delay-300">
-              <p className="text-base sm:text-lg lg:text-xl text-gold-200 font-medium">
+            {/* SEO-Optimized Subheading with enhanced readability */}
+            <div className="mb-6 sm:mb-8 animate-slideUp delay-300">
+              <p className="text-lg sm:text-xl lg:text-2xl text-white font-semibold drop-shadow-lg bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg inline-block">
                 Buy Arabian and English Perfumes Online – Fast Delivery Across Nigeria
               </p>
             </div>
             
-            <p className="text-lg sm:text-xl lg:text-2xl text-cream-100 mb-6 sm:mb-8 leading-relaxed animate-slideUp delay-400">
+            <p className="text-xl sm:text-2xl lg:text-3xl text-white mb-8 sm:mb-12 leading-relaxed animate-slideUp delay-400 drop-shadow-lg font-light">
               From traditional Arabian attars to contemporary English blends, 
               explore our curated collection of premium perfumes and oils
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-center animate-slideUp delay-500">
+            {/* Enhanced CTA buttons with better spacing */}
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start items-center animate-slideUp delay-500 mb-12 sm:mb-16">
               <button 
                 onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group w-full sm:w-auto bg-gold-500 hover:bg-gold-600 active:bg-gold-700 text-burgundy-900 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-2xl hover:shadow-gold-500/25 touch-manipulation relative overflow-hidden"
+                className="group w-full sm:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 active:from-gold-700 active:to-gold-800 text-black font-bold py-4 sm:py-5 px-8 sm:px-10 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-2xl hover:shadow-gold-500/30 touch-manipulation relative overflow-hidden text-lg"
               >
-                <span className="relative z-10 flex items-center space-x-2">
-                  <Search className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                <span className="relative z-10 flex items-center justify-center space-x-3">
+                  <Search className="h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
                   <span>Explore Collection</span>
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-gold-400 to-gold-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gold-400 to-gold-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
               <a
                 href="https://wa.me/2348038507754"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group w-full sm:w-auto border-2 border-cream-200 text-cream-200 hover:bg-cream-200 hover:text-burgundy-900 active:bg-cream-300 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation relative overflow-hidden"
+                className="group w-full sm:w-auto border-3 border-white text-white hover:bg-white hover:text-burgundy-900 active:bg-gray-100 font-bold py-4 sm:py-5 px-8 sm:px-10 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation relative overflow-hidden text-lg shadow-xl"
               >
-                <span className="relative z-10 flex items-center space-x-2">
-                  <Users className="h-5 w-5 group-hover:bounce transition-transform duration-300" />
+                <span className="relative z-10 flex items-center justify-center space-x-3">
+                  <Users className="h-6 w-6 group-hover:bounce transition-transform duration-300" />
                   <span>Chat with Us</span>
                 </span>
               </a>
             </div>
 
-            {/* Trust Indicators */}
-            <div className="mt-8 flex justify-center lg:justify-start space-x-6 text-cream-200/80 text-sm animate-slideUp delay-700">
-              <div className="flex items-center space-x-1">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span>Fast Delivery</span>
+            {/* Trust Indicators with better contrast and spacing */}
+            <div className="flex justify-center lg:justify-start space-x-8 text-white/90 text-base animate-slideUp delay-700">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                <span className="font-medium drop-shadow-md">Fast Delivery</span>
               </div>
-              <div className="flex items-center space-x-1">
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-300"></div>
-                <span>Authentic Products</span>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse delay-300 shadow-lg"></div>
+                <span className="font-medium drop-shadow-md">Authentic Products</span>
               </div>
-              <div className="flex items-center space-x-1">
-                <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-500"></div>
-                <span>24/7 Support</span>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse delay-500 shadow-lg"></div>
+                <span className="font-medium drop-shadow-md">24/7 Support</span>
               </div>
             </div>
           </div>

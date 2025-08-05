@@ -388,3 +388,32 @@ body {
 .delay-1000 {
   animation-delay: 1s;
 }
+
+/* Enhanced contrast utilities */
+.drop-shadow-2xl {
+  filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+}
+
+.border-3 {
+  border-width: 3px;
+}
+
+/* Text shadow utilities for better readability */
+.text-shadow-lg {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-xl {
+  text-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* Enhanced backdrop blur */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+/* Custom button animations */
+@keyframes buttonGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(217, 119, 6, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(217, 119, 6, 0.5); }
+}
