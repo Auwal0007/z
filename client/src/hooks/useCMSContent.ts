@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Product } from '@shared/schema';
+import { Product } from '../../../shared/schema';
 
 // Hook for managing CMS content
 export const useCMSContent = () => {

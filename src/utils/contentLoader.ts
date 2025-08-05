@@ -1,4 +1,4 @@
-import { Product, ProductVariant } from '@shared/schema';
+import { Product } from '../../shared/schema';
 import matter from 'gray-matter';
 
 // Content loader utilities for Netlify CMS
@@ -57,70 +57,57 @@ export interface CMSSiteSettings {
 
 // Function to load products from CMS content
 export async function loadCMSProducts(): Promise<Product[]> {
-  // Dynamically import all markdown files using Vite's import.meta.glob
-  const productFiles = import.meta.glob('../content/products/*.md', { 
-    eager: true, 
-    query: '?raw', 
-    import: 'default' 
-  });
-  
-  const products: Product[] = [];
-
-  for (const path in productFiles) {
-    try {
-      const raw = productFiles[path];
-      const { data } = matter(raw as string);
-      // Process and convert markdown frontmatter to Product objects
-      products.push(convertCMSProduct(data as CMSProduct));
-    } catch (err) {
-      console.error('Error parsing product file:', path, err);
+  try {
+    // Try to load from static data first
+    const staticData = await import('../data/staticProducts.json');
+    const productsData = staticData.default as { products: Product[] };
+    
+    if (productsData && productsData.products) {
+      return productsData.products;
     }
+    
+    // Fallback to empty array if no data
+    return [];
+  } catch (err) {
+    console.error('Error loading products:', err);
+    return [];
   }
-
-  return products;
 }
 
 // Function to load categories from CMS content
 export async function loadCMSCategories(): Promise<CMSCategory[]> {
-  const categoryFiles = import.meta.glob('../content/categories/*.md', { 
-    eager: true, 
-    query: '?raw', 
-    import: 'default' 
-  });
-  
-  const categories: CMSCategory[] = [];
-
-  for (const path in categoryFiles) {
-    try {
-      const raw = categoryFiles[path];
-      const { data } = matter(raw as string);
-      categories.push(data as CMSCategory);
-    } catch (err) {
-      console.error('Error parsing category file:', path, err);
-    }
+  try {
+    const staticData = await import('../data/staticCategories.json');
+    const categories = staticData.default as CMSCategory[];
+    return categories || [];
+  } catch (err) {
+    console.error('Error loading categories:', err);
+    return [];
   }
-
-  return categories.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 }
 
 // Function to load site settings from CMS content
 export async function loadCMSSettings(): Promise<CMSSiteSettings> {
   try {
-    const settingsFile = await import('../content/settings/general.md?raw');
-    const { data } = matter(settingsFile.default);
-    return data as CMSSiteSettings;
+    const staticData = await import('../data/staticSettings.json');
+    const settings = staticData.default as CMSSiteSettings;
+    return settings || getDefaultSettings();
   } catch (err) {
     console.error('Error loading site settings:', err);
-    // Return default settings
-    return {
-      title: 'Zubees Collectibles',
-      description: 'Premium perfumes and fragrances collection',
-      whatsapp: '+2348038507754',
-      email: 'info@zubeescollectibles.com',
-      address: 'Lagos, Nigeria',
-      social: {}
-    };
+    return getDefaultSettings();
   }
+}
+
+// Get default settings
+function getDefaultSettings(): CMSSiteSettings {
+  return {
+    title: 'Zubees Collectibles',
+    description: 'Premium perfumes and fragrances collection',
+    whatsapp: '+2348038507754',
+    email: 'info@zubeescollectibles.com',
+    address: 'Lagos, Nigeria',
+    social: {}
+  };
 }
 
 // Convert CMS product data to internal Product format
@@ -158,8 +145,6 @@ export function searchProducts(products: Product[], query: string): Product[] {
   return products.filter(product =>
     product.name.toLowerCase().includes(searchTerm) ||
     product.description.toLowerCase().includes(searchTerm) ||
-    product.category.toLowerCase().includes(searchTerm) ||
-    product.tags?.some(tag => tag.toLowerCase().includes(searchTerm)) ||
-    product.brand?.toLowerCase().includes(searchTerm)
+    product.category.toLowerCase().includes(searchTerm)
   );
 }
