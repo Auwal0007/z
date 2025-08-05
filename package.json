@@ -83,7 +83,8 @@
     "wouter": "^3.3.5",
     "ws": "^8.18.0",
     "zod": "^3.24.2",
-    "zod-validation-error": "^3.4.0"
+    "zod-validation-error": "^3.4.0",
+    "autoprefixer": "^10.4.21"
   },
   "devDependencies": {
     "@replit/vite-plugin-cartographer": "^0.2.5",
@@ -99,7 +100,6 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@types/ws": "^8.5.13",
-    "autoprefixer": "^10.4.21",
     "cross-env": "^10.0.0",
     "drizzle-kit": "^0.30.4",
     "postcss": "^8.4.47",
