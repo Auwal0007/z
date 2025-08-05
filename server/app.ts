@@ -8,8 +8,9 @@ export async function createApp() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
-  // Serve static images from public/images directory
+  // Serve static images from both public directories for development/production compatibility
   app.use('/images', express.static(path.resolve(process.cwd(), 'public', 'images')));
+  app.use('/images', express.static(path.resolve(process.cwd(), 'client', 'public', 'images')));
 
   app.use((req, res, next) => {
     const start = Date.now();
