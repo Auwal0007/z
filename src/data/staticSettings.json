@@ -4,9 +4,17 @@
   "whatsapp": "+2348038507754",
   "email": "info@zubeescollectibles.com",
   "address": "Lagos, Nigeria",
+  "businessHours": "",
+  "currency": "₦",
   "social": {
     "facebook": "",
     "instagram": "",
-    "twitter": ""
+    "twitter": "",
+    "whatsapp": ""
+  },
+  "seo": {
+    "keywords": "",
+    "googleAnalytics": "",
+    "metaImage": ""
   }
 }

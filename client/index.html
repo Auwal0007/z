@@ -35,13 +35,22 @@
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
     <script>
+      // Enhanced Netlify Identity integration
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+              // Simple redirect without reload loop
+              if (!window.location.pathname.includes('/admin')) {
+                document.location.href = "/admin/";
+              }
             });
           }
+        });
+        
+        // Handle logout
+        window.netlifyIdentity.on("logout", () => {
+          document.location.href = "/";
         });
       }
     </script>
