@@ -1,3 +1,4 @@
+// @ts-ignore
 import serverless from 'serverless-http';
 import express from 'express';
 
@@ -82,18 +83,18 @@ const allProducts = [
 ];
 
 // Add a simple test route
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (req: any, res: any) => {
   res.json({ message: 'API is working!', timestamp: new Date().toISOString() });
 });
 
 // Get all products
-app.get('/api/products', (req, res) => {
+app.get('/api/products', (req: any, res: any) => {
   console.log('All products API called');
   res.json(allProducts);
 });
 
 // Get products by category
-app.get('/api/products/category/:category', (req, res) => {
+app.get('/api/products/category/:category', (req: any, res: any) => {
   const { category } = req.params;
   console.log(`Category API called for: ${category}`);
   
@@ -102,14 +103,14 @@ app.get('/api/products/category/:category', (req, res) => {
 });
 
 // Get featured products
-app.get('/api/products/featured', (req, res) => {
+app.get('/api/products/featured', (req: any, res: any) => {
   console.log('Featured products API called');
   const featuredProducts = allProducts.filter(product => product.featured === true);
   res.json(featuredProducts);
 });
 
 // Search products
-app.get('/api/products/search', (req, res) => {
+app.get('/api/products/search', (req: any, res: any) => {
   const { q } = req.query;
   console.log(`Search API called for: ${q}`);
   
@@ -127,7 +128,7 @@ app.get('/api/products/search', (req, res) => {
 });
 
 // Get product by id
-app.get('/api/products/:id', (req, res) => {
+app.get('/api/products/:id', (req: any, res: any) => {
   const id = parseInt(req.params.id);
   console.log(`Product by ID API called for: ${id}`);
   
