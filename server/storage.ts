@@ -39,12 +39,12 @@ export class MemStorage implements IStorage {
   private loadCMSProducts() {
     try {
       // Load products from CMS-generated static content
-      const staticProductsPath = join(process.cwd(), 'src/data/staticProducts.json');
+      const staticProductsPath = join(process.cwd(), 'client/src/data/staticProducts.json');
       const staticProducts = JSON.parse(readFileSync(staticProductsPath, 'utf-8'));
       
       if (staticProducts.products && Array.isArray(staticProducts.products)) {
         staticProducts.products.forEach((product: any) => {
-          const id = typeof product.id === 'string' ? parseInt(product.id) : product.id;
+          const id = typeof product.id === 'string' ? parseInt(product.id) || Math.floor(Math.random() * 10000) : product.id;
           const productWithId: Product = {
             id,
             name: product.name,
