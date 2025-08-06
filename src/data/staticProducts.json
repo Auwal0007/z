@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 4642,
+      "id": 7119,
       "name": "English Rose Garden",
       "price": "18000",
       "category": "english",
@@ -31,7 +31,17 @@
       "newArrival": true
     },
     {
-      "id": 6499,
+      "id": 6758,
+      "name": "Qissa Pink 100ml Perfume in Women",
+      "price": "40000",
+      "category": "english",
+      "description": "The Netlify CMS integration is not working correctly. Although product details are being successfully pushed to GitHub, the CMS is not functioning as expected. Please conduct a thorough and comprehensive check of the configuration and related files to identify and fix the issue.",
+      "image": "/images/products/data-analytics-role.jpg",
+      "featured": true,
+      "newArrival": true
+    },
+    {
+      "id": 1002,
       "name": "Royal Oud Collection",
       "price": "25000",
       "category": "arabian",
@@ -41,6 +51,6 @@
       "newArrival": false
     }
   ],
-  "lastGenerated": "2025-08-06T09:05:02.211Z",
-  "count": 4
+  "lastGenerated": "2025-08-06T09:44:37.678Z",
+  "count": 5
 }
