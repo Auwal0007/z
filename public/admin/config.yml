@@ -17,15 +17,15 @@ collections:
     label: "Products"
     folder: "src/content/products"
     create: true
-    slug: "{{slug}}"
+    slug: "{{id}}"
     fields:
       - {label: "Product Name", name: "name", widget: "string", required: true}
       - {label: "Product ID", name: "id", widget: "string", required: true, hint: "Unique identifier for the product"}
       - {label: "Price", name: "price", widget: "number", required: true}
       - {label: "Category", name: "category", widget: "select", options: ["arabian", "english", "oil", "luxury"], required: true}
       - {label: "Description", name: "description", widget: "text", required: true}
-      - {label: "Images", name: "images", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false, hint: "Add multiple product images"}
       - {label: "Primary Image", name: "image", widget: "image", required: true, hint: "Main product image for display"}
+      - {label: "Additional Images", name: "images", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false, hint: "Add multiple product images"}
       - {label: "In Stock", name: "inStock", widget: "boolean", default: true}
       - {label: "Featured", name: "featured", widget: "boolean", default: false, hint: "Display this product in featured sections"}
       - {label: "New Arrival", name: "newArrival", widget: "boolean", default: false, hint: "Mark this product as a new arrival"}

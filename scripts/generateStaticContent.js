@@ -27,26 +27,42 @@ class StaticContentGenerator {
     console.log(`📄 Processing ${markdownFiles.length} product files...`);
     
     for (const file of markdownFiles) {
-      const filePath = path.join(productsDir, file);
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContent);
-      
-      // Process and normalize product data to match schema
-      const product = {
-        id: parseInt(data.id) || parseInt(path.basename(file, '.md')) || Math.floor(Math.random() * 10000),
-        name: String(data.name || ''),
-        price: String(data.price || '0'),
-        category: String(data.category || ''),
-        description: String(data.description || ''),
-        image: String(data.image || ''),
-        featured: Boolean(data.featured),
-        newArrival: Boolean(data.newArrival)
-      };
-      
-      products.push(product);
+      try {
+        const filePath = path.join(productsDir, file);
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const { data } = matter(fileContent);
+        
+        // Validate required fields
+        if (!data.name || !data.id || !data.price || !data.category) {
+          console.warn(`⚠️  Skipping ${file}: Missing required fields`);
+          continue;
+        }
+        
+        // Process and normalize product data to match schema
+        const product = {
+          id: parseInt(data.id) || Math.floor(Math.random() * 10000),
+          name: String(data.name || ''),
+          price: String(data.price || '0'),
+          category: String(data.category || ''),
+          description: String(data.description || ''),
+          image: String(data.image || ''),
+          featured: Boolean(data.featured),
+          newArrival: Boolean(data.newArrival)
+        };
+        
+        // Validate the processed product
+        if (product.name && product.price && product.category && product.image) {
+          products.push(product);
+          console.log(`✅ Processed: ${product.name}`);
+        } else {
+          console.warn(`⚠️  Skipping ${file}: Invalid product data after processing`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing ${file}:`, error.message);
+      }
     }
 
-    return products;
+    return products.length > 0 ? products : this.createSampleProducts();
   }
 
   async generateCategories() {
@@ -64,22 +80,30 @@ class StaticContentGenerator {
     console.log(`📂 Processing ${markdownFiles.length} category files...`);
     
     for (const file of markdownFiles) {
-      const filePath = path.join(categoriesDir, file);
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContent);
-      
-      categories.push({
-        id: String(data.id || path.basename(file, '.md')),
-        name: String(data.name || ''),
-        description: String(data.description || ''),
-        image: String(data.image || ''),
-        featured: Boolean(data.featured),
-        sortOrder: Number(data.sortOrder || 0)
-      });
+      try {
+        const filePath = path.join(categoriesDir, file);
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const { data } = matter(fileContent);
+        
+        if (data.name && data.id) {
+          categories.push({
+            id: String(data.id || path.basename(file, '.md')),
+            name: String(data.name || ''),
+            description: String(data.description || ''),
+            image: String(data.image || ''),
+            featured: Boolean(data.featured),
+            sortOrder: Number(data.sortOrder || 0)
+          });
+        }
+      } catch (error) {
+        console.error(`❌ Error processing category ${file}:`, error.message);
+      }
     }
 
     // Sort categories by sortOrder
-    return categories.sort((a, b) => a.sortOrder - b.sortOrder);
+    return categories.length > 0 ? 
+      categories.sort((a, b) => a.sortOrder - b.sortOrder) : 
+      this.createSampleCategories();
   }
 
   async generateSiteSettings() {
@@ -90,32 +114,38 @@ class StaticContentGenerator {
       return this.createDefaultSettings();
     }
 
-    const fileContent = fs.readFileSync(settingsFile, 'utf8');
-    const { data } = matter(fileContent);
-    
-    return {
-      title: String(data.title || 'Zubees Collectibles'),
-      description: String(data.description || 'Premium perfumes and fragrances collection'),
-      whatsapp: String(data.whatsapp || '+2348038507754'),
-      email: String(data.email || 'info@zubeescollectibles.com'),
-      address: String(data.address || 'Lagos, Nigeria'),
-      businessHours: String(data.businessHours || ''),
-      currency: String(data.currency || '₦'),
-      social: {
-        facebook: String(data.social?.facebook || ''),
-        instagram: String(data.social?.instagram || ''),
-        twitter: String(data.social?.twitter || ''),
-        whatsapp: String(data.social?.whatsapp || '')
-      },
-      seo: {
-        keywords: String(data.seo?.keywords || ''),
-        googleAnalytics: String(data.seo?.googleAnalytics || ''),
-        metaImage: String(data.seo?.metaImage || '')
-      }
-    };
+    try {
+      const fileContent = fs.readFileSync(settingsFile, 'utf8');
+      const { data } = matter(fileContent);
+      
+      return {
+        title: String(data.title || 'Zubees Collectibles'),
+        description: String(data.description || 'Premium perfumes and fragrances collection'),
+        whatsapp: String(data.whatsapp || '+2348038507754'),
+        email: String(data.email || 'info@zubeescollectibles.com'),
+        address: String(data.address || 'Lagos, Nigeria'),
+        businessHours: String(data.businessHours || ''),
+        currency: String(data.currency || '₦'),
+        social: {
+          facebook: String(data.social?.facebook || ''),
+          instagram: String(data.social?.instagram || ''),
+          twitter: String(data.social?.twitter || ''),
+          whatsapp: String(data.social?.whatsapp || '')
+        },
+        seo: {
+          keywords: String(data.seo?.keywords || ''),
+          googleAnalytics: String(data.seo?.googleAnalytics || ''),
+          metaImage: String(data.seo?.metaImage || '')
+        }
+      };
+    } catch (error) {
+      console.error('❌ Error processing settings:', error.message);
+      return this.createDefaultSettings();
+    }
   }
 
   createSampleProducts() {
+    console.log('📦 Creating sample products...');
     return [
       {
         id: 1,
